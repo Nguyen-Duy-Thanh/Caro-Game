@@ -9,7 +9,7 @@
 
 using namespace std;
 
-string direct =  "C:/Users/admin/Desktop/Caro/Player";
+string direct =  "Player";
 
 class Player{
 private:
