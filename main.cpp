@@ -28,6 +28,8 @@ int main(){
             int turn = 1;
 
             while(true){
+                //check win
+                
                 system("cls");
                 t.Draw();
 
@@ -51,11 +53,14 @@ int main(){
                 break;
             }
         }
-
+        
         if(ss.getMainOption() == 2){
             system("cls");
             ss.BotMenuShow();
             if(ss.getBotOption() == 4) continue;
+            //if(ss.getBotOption() == 1) Easy
+            //if(ss.getBotOption() == 2) Medium
+            //if(ss.getBotOption() == 3) Hard
         }
 
         system("pause");
