@@ -34,9 +34,15 @@ public:
         for(int i = 0; i< m_Table.size(); i++) cout << m_Table[i] << endl;
     }
 
-    void Play(int x, int y, int player){
-        if(player == 1) m_Table[2 * x + 2][4 * y + 3] = 'X';
-        if(player == 2) m_Table[2 * x + 2][4 * y + 3] = 'O';
+    void Mark(int x, int y, int &turn){
+        if(x < 0 || x >= m_length || y < 0 || y >= m_width){
+            cout << "Input out of range. Do it again" << endl;
+            system("pause");
+            return;
+        }
+        else if(turn % 2 == 1) m_Table[2 * x + 2][4 * y + 3] = 'X';
+        else m_Table[2 * x + 2][4 * y + 3] = 'O';
+        turn++;
     }
 
     ~Table(){

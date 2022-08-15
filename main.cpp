@@ -24,43 +24,13 @@ int main(){
         if(ss.getMainOption() == 1){
             system("cls");
             VsPlayer p;
-            Table t(10, 10);
-            int turn = 1;
-
-            while(true){
-                //check win
-                
-                system("cls");
-                t.Draw();
-
-                string playerName;
-                int playerTurn;
-                if(turn % 2 == 1){
-                    playerName = p.getPlayer1();
-                    playerTurn = 1;
-                }
-                else{
-                    playerName = p.getPlayer2();
-                    playerTurn = 2;
-                }
-
-                int x, y;
-                cout << playerName << ": "; cin >> x >> y;
-                t.Play(x, y, playerTurn);
-
-                turn++;
-
-                break;
-            }
+            p.Play();
         }
-        
+
         if(ss.getMainOption() == 2){
             system("cls");
             ss.BotMenuShow();
             if(ss.getBotOption() == 4) continue;
-            //if(ss.getBotOption() == 1) Easy
-            //if(ss.getBotOption() == 2) Medium
-            //if(ss.getBotOption() == 3) Hard
         }
 
         system("pause");

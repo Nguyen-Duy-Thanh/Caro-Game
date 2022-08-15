@@ -21,7 +21,21 @@ public:
     string getPlayer2() {return p2.getName();}
 
     void Play(){
+        Table t(10, 10);
+        int turn = 1;
 
+        while(true){
+            system("cls");
+            t.Draw();
+
+            string playerName;
+            if(turn % 2 == 1) playerName = p1.getName();
+            else playerName = p2.getName();
+
+            int x, y;
+            cout << "=> " << playerName << ": "; cin >> x >> y;
+            t.Mark(x, y, turn);
+        }
     }
 };
 
