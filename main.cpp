@@ -3,6 +3,7 @@
 #include"lib/Table.h"
 #include"lib/VsPlayer.h"
 #include"lib/StartScreen.h"
+#include"lib/PlayerInfo.h"
 
 using namespace std;
 
@@ -19,6 +20,12 @@ int main(){
         if(ss.getMainOption() == 4){
             system("cls");
             ss.GuildMenu();
+        }
+
+        if(ss.getMainOption() == 3){
+            system("cls");
+            PlayerInfo pI;
+            pI.printInfo();
         }
 
         if(ss.getMainOption() == 1){

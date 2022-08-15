@@ -6,6 +6,7 @@
 #include<string>
 #include<dirent.h>
 #include<fstream>
+#include"Func.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ public:
         struct dirent *diread;
         vector<string> files;
 
-        if ((dir = opendir("C:/Users/admin/Desktop/Caro/Player")) != nullptr) {
+        if ((dir = opendir("Player")) != nullptr) {
             while ((diread = readdir(dir)) != nullptr) {
                 string file_name = diread->d_name;
                 string playerFile = m_name + ".txt";
@@ -64,6 +65,7 @@ public:
 
         m_win = stoi(lines[1]);
         m_lose = stoi(lines[3]);
+        m_draw = stoi(lines[5]);
     }
 
     void Input(){
@@ -88,9 +90,21 @@ public:
     }
 
     string getName() {return m_name;}
+    int getWin() {return m_win;}
+    int getLose() {return m_lose;}
+    int getDraw() {return m_draw;}
+
     void Win() {m_win += 1;}
     void Lose() {m_lose += 1;}
     void Draw() {m_draw += 1;}
+    int calPoint(){
+        int point = 3*m_win - m_lose;
+        return point < 0 ? 0 : point;
+    }
+
+    void printInfo(){
+        cout << "|" << Align(m_name, 10, 'l') << "|" << Align(to_string(m_win), 3, 'c') << "|" << Align(to_string(m_draw), 3, 'c') << "|" << Align(to_string(m_lose), 3, 'c') << "|" << Align(to_string(calPoint()), 3, 'c') << "|" << endl;
+    }
 
     ~Player(){
         createPlayer();
