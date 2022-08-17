@@ -40,14 +40,17 @@ public:
             system("pause");
             return;
         }
+        else if(m_Table[2 * x + 2][4 * y + 3] == 'X' || m_Table[2 * x + 2][4 * y + 3] == 'O'){
+            cout << "Exist other player move" << endl;
+            system("pause");
+            return;
+        }
         else if(turn % 2 == 1) m_Table[2 * x + 2][4 * y + 3] = 'X';
         else m_Table[2 * x + 2][4 * y + 3] = 'O';
         turn++;
     }
 
     ~Table(){
-        m_length = NULL;
-        m_width = NULL;
         m_Table.clear();
     }
 };
