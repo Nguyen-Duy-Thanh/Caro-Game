@@ -2,31 +2,60 @@
 #define _STARTSCREEN_H
 
 #include<iostream>
+#include<string>
 
 using namespace std;
 
 class StartScreen{
 private:
-    int m_mainOption;
-    int m_botOption;
+    string m_mainOption;
+    string m_playerOption;
+    string m_botOption;
 public:
     void MainMenuShow(){
-        cout << "+-------MAIN MENU-------+" << endl;
-        cout << "1. Play with Other Player" << endl;
-        cout << "2. Play with Bot" << endl;
-        cout << "3. Player's Information" << endl;
-        cout << "4. Guild" << endl;
-        cout << "5. Exit" << endl;
-        cout << "Choice: "; cin >> m_mainOption;
+        m_mainOption = "";
+        while(true){
+            system("cls");
+            cout << "+-------MAIN MENU-------+" << endl;
+            cout << "1. Play with Other Player" << endl;
+            cout << "2. Play with Bot" << endl;
+            cout << "3. Player's Information" << endl;
+            cout << "4. Guild" << endl;
+            cout << "5. Exit" << endl;
+            if(m_mainOption != "") cout << "Input error, check again" << endl;
+            cout << "Choice: "; cin >> m_mainOption;
+            if(m_mainOption == "1" || m_mainOption == "2" || m_mainOption == "3" || m_mainOption == "4" || m_mainOption == "5") break;
+
+        }
+    }
+
+    void VsPlayerMenuShow(){
+        m_playerOption = "";
+        while(true){
+            system("cls");
+            cout << "+-Play with Player-+" << endl;
+            cout << "1. 2 Player" << endl;
+            cout << "2. Find Other Player" << endl;
+            cout << "3. Back to Main Menu" << endl;
+            if(m_playerOption != "") cout << "Input error, check again" << endl;
+            cout << "Choice: "; cin >> m_playerOption;
+            if(m_playerOption == "1" || m_playerOption == "2" || m_playerOption == "3") break;
+        }
     }
 
     void BotMenuShow(){
-        cout << "+--Play with Bot---+" << endl;
-        cout << "1. Easy Mode" << endl;
-        cout << "2. Normal Mode" << endl;
-        cout << "3. Hard Mode" << endl;
-        cout << "4. Back to Main Menu" << endl;
-        cout << "Choice: "; cin >> m_botOption;
+        m_botOption = "";
+        while(true){
+            system("cls");
+            cout << "+--Play with Bot---+" << endl;
+            cout << "1. Easy Mode" << endl;
+            cout << "2. Normal Mode" << endl;
+            cout << "3. Hard Mode" << endl;
+            cout << "4. Back to Main Menu" << endl;
+            if(m_botOption != "") cout << "Input error, check again" << endl;
+            cout << "Choice: "; cin >> m_botOption;
+            if(m_botOption == "1" || m_botOption == "2" || m_botOption == "3" || m_botOption == "4") break;
+        }
     }
 
     void GuildMenu(){
@@ -37,8 +66,9 @@ public:
         cout << "or diagonally, he wins" << endl;
     }
 
-    int getMainOption() {return m_mainOption;}
-    int getBotOption() {return m_botOption;}
+    int getMainOption() {return stoi(m_mainOption);}
+    int getPlayerOption() {return stoi(m_playerOption);}
+    int getBotOption() {return stoi(m_botOption);}
 
 };
 

@@ -26,12 +26,17 @@ int main(){
             system("cls");
             PlayerInfo pI;
             pI.printInfo();
+            continue;
         }
 
         if(ss.getMainOption() == 1){
             system("cls");
-            VsPlayer p;
-            p.Play();
+            ss.VsPlayerMenuShow();
+            if(ss.getPlayerOption() == 3) continue;
+            else{
+                VsPlayer p(ss.getPlayerOption());
+                p.Play();
+            }
         }
 
         if(ss.getMainOption() == 2){

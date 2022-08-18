@@ -118,6 +118,13 @@ public:
         return -1;
     }
 
+    vector<string> accepttedInput(){
+        vector<string> ss;
+        for(int i = 0; i < max(m_length, m_width); i++) ss.push_back(to_string(i));
+
+        return ss;
+    }
+
     ~Table(){
         m_Table.clear();
     }

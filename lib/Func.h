@@ -26,4 +26,9 @@ string tolower(string &s){
     return s;
 }
 
+bool checkString(string s, vector<string> ss){
+    for(int i = 0; i < ss.size(); i++) if(s == ss[i]) return true;
+    return false;
+}
+
 #endif // _FUNC_H

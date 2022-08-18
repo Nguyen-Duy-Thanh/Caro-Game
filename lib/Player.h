@@ -74,14 +74,21 @@ public:
             m_name = tolower(m_name);
 
             if(checkPlayer()){
-                char check;
+                string check;
                 cout << "Player with the same name already exist, is that you? (y/n)" << endl;
-                cout << ">"; cin >> check;
-                if(check == 'y'){
-                    openPlayer();
-                    break;
+                while(true){
+                    cout << "Choice: "; cin >> check;
+                    if(tolower(check) == "y" || tolower(check) == "yes"){
+                        openPlayer();
+                        break;
+                    }
+                    else if(tolower(check) != "n" && tolower(check) != "no"){
+                        cout << "Input error, check again" << endl;
+                        continue;
+                    }
+                    else break;
                 }
-                else continue;
+                if(tolower(check) == "y" || tolower(check) == "yes") break;
             }
             else{
                 createPlayer();
