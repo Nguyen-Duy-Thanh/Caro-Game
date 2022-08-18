@@ -37,23 +37,39 @@ public:
         for(int i = 0; i < ps.size(); i++){
             for(int j = i; j < ps.size(); j++){
                 if(sort_type == "p"){
-                    if(LOWER) if(ps[i].calPoint() < ps[j].calPoint()) swap(ps[i], ps[j]);
-                    else if(ps[i].calPoint() > ps[j].calPoint()) swap(ps[i], ps[j]);
+                    if(LOWER){
+                        if(ps[i].calPoint() < ps[j].calPoint()) swap(ps[i], ps[j]);
+                    }
+                    else{
+                        if(ps[i].calPoint() > ps[j].calPoint()) swap(ps[i], ps[j]);
+                    }
                 }
 
-                if(sort_type == "w"){
-                    if(LOWER) if(ps[i].getWin() < ps[j].getWin()) swap(ps[i], ps[j]);
-                    else if(ps[i].getWin() > ps[j].getWin()) swap(ps[i], ps[j]);
+                else if(sort_type == "w"){
+                    if(LOWER){
+                        if(ps[i].getWin() < ps[j].getWin()) swap(ps[i], ps[j]);
+                    }
+                    else{
+                        if(ps[i].getWin() > ps[j].getWin()) swap(ps[i], ps[j]);
+                    }
                 }
 
-                if(sort_type == "d"){
-                    if(LOWER) if(ps[i].getDraw() < ps[j].getDraw()) swap(ps[i], ps[j]);
-                    else if(ps[i].getDraw() > ps[j].getDraw()) swap(ps[i], ps[j]);
+                else if(sort_type == "d"){
+                    if(LOWER){
+                        if(ps[i].getDraw() < ps[j].getDraw()) swap(ps[i], ps[j]);
+                    }
+                    else{
+                        if(ps[i].getDraw() > ps[j].getDraw()) swap(ps[i], ps[j]);
+                    }
                 }
 
-                if(sort_type == "l"){
-                    if(LOWER) if(ps[i].getLose() < ps[j].getLose()) swap(ps[i], ps[j]);
-                    else if(ps[i].getLose() > ps[j].getLose()) swap(ps[i], ps[j]);
+                else if(sort_type == "l"){
+                    if(LOWER){
+                        if(ps[i].getLose() < ps[j].getLose()) swap(ps[i], ps[j]);
+                    }
+                    else{
+                        if(ps[i].getLose() > ps[j].getLose()) swap(ps[i], ps[j]);
+                    }
                 }
             }
         }

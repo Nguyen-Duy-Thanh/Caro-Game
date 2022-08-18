@@ -50,6 +50,74 @@ public:
         turn++;
     }
 
+    int verticalCheck(int x, int y){
+        int temp = x, point = 1;
+        while(m_Table[2 * (temp + 1) + 2][4 * y + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            temp++;
+            point++;
+        }
+        temp = x;
+        while(m_Table[2 * (temp - 1) + 2][4 * y + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            temp--;
+            point++;
+        }
+        return point;
+    }
+
+    int horizonCheck(int x, int y){
+        int temp = y, point = 1;
+        while(m_Table[2 * x + 2][4 * (temp + 1) + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            temp += 1;
+            point += 1;
+        }
+        temp = y;
+        while(m_Table[2 * x + 2][4 * (temp - 1) + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            temp -= 1;
+            point += 1;
+        }
+        return point;
+    }
+
+    int diagonCheck(int x, int y){
+        int tempX = x, tempY = y, point = 1;
+        while(m_Table[2 * (tempX + 1) + 2][4 * (tempY + 1) + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            tempX++;
+            tempY++;
+            point++;
+        }
+        tempX = x; tempY = y;
+        while(m_Table[2 * (tempX - 1) + 2][4 * (tempY - 1) + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            tempX--;
+            tempY--;
+            point++;
+        }
+        return point;
+    }
+
+    int invertDiagonCheck(int x, int y){
+        int tempX = x, tempY = y, point = 1;
+        while(m_Table[2 * (tempX + 1) + 2][4 * (tempY - 1) + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            tempX++;
+            tempY++;
+            point++;
+        }
+        tempX = x; tempY = y;
+        while(m_Table[2 * (tempX - 1) + 2][4 * (tempY + 1) + 3] == m_Table[2 * x + 2][4 * y + 3]){
+            tempX--;
+            tempY--;
+            point++;
+        }
+        return point;
+    }
+
+    int checkWin(int x, int y, int player){
+        if(horizonCheck(x, y) == 4 || verticalCheck(x, y) == 4 ||  diagonCheck(x, y) == 4 || invertDiagonCheck(x, y) == 4){
+            if(player == 0) return 0;
+            else return 1;
+        }
+        return -1;
+    }
+
     ~Table(){
         m_Table.clear();
     }

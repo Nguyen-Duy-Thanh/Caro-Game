@@ -22,7 +22,7 @@ public:
 
     void Play(){
         Table t(10, 10);
-        int turn = 1;
+        int turn = 1, win = -1, check = -1;
 
         while(true){
             system("cls");
@@ -35,6 +35,20 @@ public:
             int x, y;
             cout << "=> " << playerName << ": "; cin >> x >> y;
             t.Mark(x, y, turn);
+            win = t.checkWin(x, y, turn % 2);
+            if(win != -1) break;
+        }
+        system("cls");
+        t.Draw();
+        if(win == 0){
+            cout << p1.getName() << " win" << endl;
+            p1.Win();
+            p2.Lose();
+        }
+        else{
+            cout << p2.getName() << " win" << endl;
+            p1.Lose();
+            p2.Win();
         }
     }
 };
