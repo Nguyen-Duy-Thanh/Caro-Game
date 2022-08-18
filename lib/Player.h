@@ -19,7 +19,7 @@ private:
     int m_draw;
     string m_name;
 public:
-    Player(string name = "", int win = 0, int lose = 0, int draw = 0): m_name(name), m_win(win), m_lose(lose), m_draw(draw) {}
+    Player(string name = "", int win = 0, int lose = 0, int draw = 0): m_name(tolower(name)), m_win(win), m_lose(lose), m_draw(draw) {}
 
     bool checkPlayer(){
         DIR *dir;
@@ -71,6 +71,7 @@ public:
     void Input(){
         while(true){
             cout << "Player name: "; cin >> m_name;
+            m_name = tolower(m_name);
 
             if(checkPlayer()){
                 char check;
