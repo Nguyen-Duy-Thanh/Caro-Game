@@ -6,6 +6,7 @@
 #include "Player.h"
 #include"PlayerInfo.h"
 #include"Func.h"
+#include"Frame.h"
 
 using namespace std;
 
@@ -13,20 +14,30 @@ class VsPlayer{
 private:
     Player p1;
     Player p2;
+
 public:
     VsPlayer(int option){
-        p1.Input();
+        int line = 11;
 
-        if(option == 1) p2.Input();
-        else{
+        // Player 1
+        p1.Input(line);
+
+        gotoXY(10, 11);
+        cout << "Player 1: " << p1.getName() << " (" << p1.getWin() << ", " << p1.getDraw() << ", " << p1.getLose() << ")";
+        deleteInputLines(0, 10, line + 1);
+
+        //Player 2
+        if(option == 1) p2.Input(line + 1); // Input
+        else{                               // Find in File
             PlayerInfo pI;
-            p2 = pI.findPlayer(p1);
+            p2 = pI.findPlayer(p1, line + 1);
         }
     }
 
     string getPlayer1() {return p1.getName();}
     string getPlayer2() {return p2.getName();}
 
+    // 2 Player Interface
     void Play(){
         Table t(10, 10);
         int turn = 1, win = -1, check = -1;
@@ -60,10 +71,15 @@ public:
             p1.Win();
             p2.Lose();
         }
-        else{
+        else if(win = 1){
             cout << p2.getName() << " win" << endl;
             p1.Lose();
             p2.Win();
+        }
+        else if(win == 2){
+            cout << "Game draw" << endl;
+            p1.Draw();
+            p2.Draw();
         }
     }
 };

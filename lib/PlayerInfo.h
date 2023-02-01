@@ -8,6 +8,7 @@
 #include"Player.h"
 #include <cstdlib>
 #include <ctime>
+#include"Frame.h"
 
 using namespace std;
 
@@ -16,14 +17,17 @@ private:
     bool LOWER;
     string m_option;
     vector<Player> ps;
+
 public:
     PlayerInfo(){
+
+        // Check existed player name
         DIR *dir;
         struct dirent *diread;
         vector<string> files;
 
-        if ((dir = opendir("Player")) != nullptr) {
-            while ((diread = readdir(dir)) != nullptr) {
+        if ((dir = opendir("Player")) != nullptr){
+            while ((diread = readdir(dir)) != nullptr){
                 string file_name = diread->d_name;
                 if(file_name.size() > 4){
                     file_name.erase(file_name.begin() + file_name.find(".txt"), file_name.end());
@@ -40,33 +44,12 @@ public:
         LOWER = true;
     }
 
-    Player findPlayer(Player p){
-        vector<Player> temp;
-
-        for(int i = 0; i < ps.size(); i++){
-            if(ps[i].getName() == p.getName()) continue;
-            if(ps[i].calPoint() > (p.calPoint()-6) && ps[i].calPoint() < (p.calPoint() +6)) temp.push_back(ps[i]);
-        }
-
-        while(true){
-            srand(time(NULL));
-            int r = rand() % temp.size();
-            cout << "Are you want to play with " << temp[r].getName() << "? (y/n)" << endl;
-            string s;
-            while(true){
-                cout << "Choice: "; cin >> s;
-                if(tolower(s) == "y" || tolower(s) == "yes") return temp[r];
-                else if(tolower(s) != "n" && tolower(s) != "no") cout << "Input error, check again" << endl;
-                else break;
-            }
-
-        }
-
-    }
-
+    // Sort players
     void Sort(string sort_type, bool LOWER){
         for(int i = 0; i < ps.size(); i++){
             for(int j = i; j < ps.size(); j++){
+
+                // Point
                 if(sort_type == "4"){
                     if(LOWER){
                         if(ps[i].calPoint() < ps[j].calPoint()) swap(ps[i], ps[j]);
@@ -76,6 +59,7 @@ public:
                     }
                 }
 
+                // Wins
                 else if(sort_type == "1"){
                     if(LOWER){
                         if(ps[i].getWin() < ps[j].getWin()) swap(ps[i], ps[j]);
@@ -85,6 +69,7 @@ public:
                     }
                 }
 
+                // Draws
                 else if(sort_type == "2"){
                     if(LOWER){
                         if(ps[i].getDraw() < ps[j].getDraw()) swap(ps[i], ps[j]);
@@ -94,6 +79,7 @@ public:
                     }
                 }
 
+                // Loses
                 else if(sort_type == "3"){
                     if(LOWER){
                         if(ps[i].getLose() < ps[j].getLose()) swap(ps[i], ps[j]);
@@ -106,25 +92,36 @@ public:
         }
     }
 
+    // Print player info
     void printInfo(){
         string option = "";
+
         while(m_option != "6"){
             system("cls");
+
             Sort(m_option, LOWER);
-            cout << "+---Name---+-W-+-D-+-L-+-P-+" << endl;
+
+            menuFrame(-1);
+            gotoXY(18, 2); cout << "+---Name---+-Wins-+-Draws-+-Loses-+-Point-+" << endl;
             for(int i = 0; i < ps.size(); i++){
+                gotoXY(18, 2 + 2 * (i + 1) - 1);
                 ps[i].printInfo();
-                cout << "+----------+---+---+---+---+" << endl;
+
+                gotoXY(18, 2 + 2 * (i + 1));
+                cout << "+----------+------+-------+-------+-------+" << endl;
             }
 
-            cout << "1. Sort by Wins" << endl;
-            cout << "2. Sort by Draws" << endl;
-            cout << "3. Sort by Loses" << endl;
-            cout << "4. Sort by Points" << endl;
-            cout << "5. Reverse" << endl;
-            cout << "6. Back to Main Menu" << endl;
-            if(option != "") cout << "Input error, check again" << endl;
-            cout << "Choice: "; cin >> option;
+            int line = 2 + 2 * (ps.size() + 1);
+            gotoXY(30, line); cout << "1. Sort by Wins" << endl;
+            gotoXY(30, line + 1); cout << "2. Sort by Draws" << endl;
+            gotoXY(30, line + 2); cout << "3. Sort by Loses" << endl;
+            gotoXY(30, line + 3); cout << "4. Sort by Points" << endl;
+            gotoXY(30, line + 4); cout << "5. Reverse" << endl;
+            gotoXY(30, line + 5); cout << "6. Back to Main Menu" << endl;
+
+            // Check option
+            checkOption(option, 30, line + 6);
+
             if(option == "1" || option == "2" || option == "3" || option == "4"){
                 m_option = option;
                 option = "";
@@ -134,6 +131,101 @@ public:
                 option = "";
             }
             else if(option == "6") break;
+        }
+    }
+
+    Player findPlayer(Player p, int line){
+        vector<Player> sameLevel;
+        vector<Player> higherLevel;
+        vector<Player> lowerLevel;
+        Sort(m_option, LOWER);
+        int position;
+
+        for(int i = 0; i < ps.size(); i++){
+            if(ps[i].getName() == p.getName()){
+                position = i;
+                continue;
+            }
+            else if(ps[i].calPoint() > (p.calPoint()-6) && ps[i].calPoint() < (p.calPoint() +6)) sameLevel.push_back(ps[i]);
+            else if(ps[i].calPoint() <= (p.calPoint()-6)) lowerLevel.push_back(ps[i]);
+            else if(ps[i].calPoint() >= (p.calPoint()-6)) higherLevel.push_back(ps[i]);
+        }
+
+        while(true){
+            if(sameLevel.size() != 0){
+                while(true && sameLevel.size() != 0){
+                    srand(time(NULL));
+                    int r = rand() % sameLevel.size();
+                    gotoXY(10, line);
+                    cout << "Are you want to play with " << sameLevel[r].getName() << " (P: " << sameLevel[r].calPoint() << ")" << "? (y/n)" << endl;
+                    string s = "";
+                    while(true){
+                        checkOption(s, 10, line + 1);
+
+                        if(tolower(s) == "y" || tolower(s) == "yes") return sameLevel[r];
+                        else if(tolower(s) != "n" && tolower(s) != "no"){
+                            deleteInputLines(7, 10, line + 1);
+                            continue;
+                        }
+                        else{
+                            sameLevel.erase(sameLevel.begin() + r);
+                            deleteInputLines(7, 10, line);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if(sameLevel.size() == 0 && higherLevel.size() != 0){
+                while(true && higherLevel.size() != 0){
+                    srand(time(NULL));
+                    int r = rand() % higherLevel.size();
+                    gotoXY(10, line);
+                    cout << "Are you want to play with " << higherLevel[r].getName() << " (P: " << higherLevel[r].calPoint() << ")" << "? (y/n)" << endl;
+                    string s = "";
+                    while(true){
+                        checkOption(s, 10, line + 1);
+
+                        if(tolower(s) == "y" || tolower(s) == "yes") return sameLevel[r];
+                        else if(tolower(s) != "n" && tolower(s) != "no"){
+                            deleteInputLines(7, 10, line + 1);
+                            continue;
+                        }
+                        else{
+                            higherLevel.erase(higherLevel.begin() + r);
+                            deleteInputLines(7, 10, line);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if(sameLevel.size() == 0 && higherLevel.size() == 0){
+                while(true && lowerLevel.size() != 0){
+                    srand(time(NULL));
+                    int r = rand() % lowerLevel.size();
+                    gotoXY(10, line);
+                    cout << "Are you want to play with " << lowerLevel[r].getName() << " (P: " << lowerLevel[r].calPoint() << ")" << "? (y/n)" << endl;
+                    string s = "";
+                    while(true){
+                        checkOption(s, 10, line + 1);
+
+                        if(tolower(s) == "y" || tolower(s) == "yes") return sameLevel[r];
+                        else if(tolower(s) != "n" && tolower(s) != "no"){
+                            deleteInputLines(7, 10, line + 1);
+                            continue;
+                        }
+                        else{
+                            lowerLevel.erase(lowerLevel.begin() + r);
+                            deleteInputLines(7, 10, line);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            cout << "Out of player, please choose again" << endl;
+            system("pause");
         }
     }
 

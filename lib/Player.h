@@ -7,6 +7,7 @@
 #include<dirent.h>
 #include<fstream>
 #include"Func.h"
+#include"Frame.h"
 
 using namespace std;
 
@@ -68,27 +69,35 @@ public:
         m_draw = stoi(lines[5]);
     }
 
-    void Input(){
+    void Input(int line){
         while(true){
-            cout << "Player name: "; cin >> m_name;
-            m_name = tolower(m_name);
+            gotoXY(10, line);
+            cout << "Player name: ";
+            string name;
+            cin >> name;
+            m_name = tolower(name);
 
             if(checkPlayer()){
                 string check;
-                cout << "Player with the same name already exist, is that you? (y/n)" << endl;
+
+                gotoXY(10, line + 1);
+                cout << "Player with the same name already exist, is that you? (y/n)";
+
                 while(true){
-                    cout << "Choice: "; cin >> check;
+                    checkOption(check, 10, line + 2);
+
                     if(tolower(check) == "y" || tolower(check) == "yes"){
                         openPlayer();
                         break;
                     }
                     else if(tolower(check) != "n" && tolower(check) != "no"){
-                        cout << "Input error, check again" << endl;
                         continue;
                     }
                     else break;
                 }
+
                 if(tolower(check) == "y" || tolower(check) == "yes") break;
+                else deleteInputLines(12, 10, line);
             }
             else{
                 createPlayer();
@@ -111,7 +120,7 @@ public:
     }
 
     void printInfo(){
-        cout << "|" << Align(m_name, 10, 'l') << "|" << Align(to_string(m_win), 3, 'c') << "|" << Align(to_string(m_draw), 3, 'c') << "|" << Align(to_string(m_lose), 3, 'c') << "|" << Align(to_string(calPoint()), 3, 'c') << "|" << endl;
+        cout << "|" << Align(m_name, 10, 'l') << "|" << Align(to_string(m_win), 6, 'c') << "|" << Align(to_string(m_draw), 7, 'c') << "|" << Align(to_string(m_lose), 7, 'c') << "|" << Align(to_string(calPoint()), 7, 'c') << "|" << endl;
     }
 
     ~Player(){
