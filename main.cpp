@@ -4,6 +4,7 @@
 #include"lib/VsPlayer.h"
 #include"lib/StartScreen.h"
 #include"lib/PlayerInfo.h"
+#include"lib/VsBot.h"
 
 using namespace std;
 
@@ -34,6 +35,8 @@ int main(){
             ss.VsPlayerMenuShow();
             if(ss.getPlayerOption() == 3) continue;
             else{
+                system("cls");
+                menuFrame(-1);
                 VsPlayer p(ss.getPlayerOption());
                 p.Play();
             }
@@ -43,6 +46,11 @@ int main(){
             system("cls");
             ss.BotMenuShow();
             if(ss.getBotOption() == 4) continue;
+            else if(ss.getBotOption() == 3){
+                system("cls");
+                VsBot b;
+                b.Play();
+            }
         }
 
         system("pause");
